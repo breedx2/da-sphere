@@ -7,7 +7,7 @@ SYSTEM_MODE(AUTOMATIC);
 
 /* ======================= prototypes =============================== */
 
-void colorAll(uint32_t c, uint8_t wait);
+void setAllToColor(uint32_t color);
 void colorWipe(uint32_t c, uint8_t wait);
 void rainbow(uint8_t wait);
 void rainbowCycle(uint8_t wait);
@@ -65,18 +65,6 @@ int color(String colorName){
     } else if(colorName == "off"){
          colorWipe(strip.Color(0, 0, 0), 50);
     }
-
-}
-
-// Set all pixels in the strip to a solid color, then wait (ms)
-void colorAll(uint32_t c, uint8_t wait) {
-  uint16_t i;
-
-  for(i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
-  }
-  strip.show();
-  delay(wait);
 }
 
 // Fill the dots one after the other with a color, wait (ms) after each one
@@ -86,6 +74,13 @@ void colorWipe(uint32_t color, uint8_t wait) {
     strip.show();
     delay(wait);
   }
+}
+
+void setAllToColor(uint32_t color) {
+  for(uint16_t pixelNum=0; pixelNum < strip.numPixels(); pixelNum++) {
+    strip.setPixelColor(pixelNum, color);
+  }
+  strip.show();
 }
 
 void rainbow(uint8_t wait) {
