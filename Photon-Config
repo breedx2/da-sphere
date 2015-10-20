@@ -25,13 +25,13 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
   colorWipe(strip.Color(255, 255, 255), 50);
-  
+
   Spark.function("color", color); // Expose the color function
   Spark.function("pagerduty", pagerduty); // Expose the color function
 }
 
 void loop() {
-  
+
 }
 
 // The pagerduty function exposed in the spark API
@@ -41,39 +41,37 @@ int pagerduty(String notice){
 }
 
 // The color function exposed in the spark API
-
-int color(String command){
-    
-    if(command == "white"){
-        colorWipe(strip.Color(255, 255, 255), 50); // Red
-    }else if(command == "red"){
+int color(String colorName){
+    if(colorName == "white"){
+        colorWipe(strip.Color(255, 255, 255), 50);
+    } else if(colorName == "red"){
         colorWipe(strip.Color(255, 0, 0), 50);
-    }else if(command == "blue"){
+    } else if(colorName == "blue"){
         colorWipe(strip.Color(0, 0, 255), 50);
-    }else if(command == "green"){
+    } else if(colorName == "green"){
         colorWipe(strip.Color(0, 255, 0), 50);
-    }else if(command == "yellow"){
+    } else if(colorName == "yellow"){
         colorWipe(strip.Color(255, 255, 0), 50);
-    }else if(command == "purple"){
+    } else if(colorName == "purple"){
         colorWipe(strip.Color(255, 0, 255), 50);
-    }else if(command == "cyan"){
+    } else if(colorName == "cyan"){
         colorWipe(strip.Color(0, 255, 255), 50);
-    }else if(command == "orange"){
+    } else if(colorName == "orange"){
         colorWipe(strip.Color(255, 90, 0), 50);
-    }else if(command == "pink"){
+    } else if(colorName == "pink"){
         colorWipe(strip.Color(255, 00, 90), 50);
-    }else if(command == "rainbow"){
+    } else if(colorName == "rainbow"){
         rainbowCycle(20);
-    }else if(command == "off"){
+    } else if(colorName == "off"){
          colorWipe(strip.Color(0, 0, 0), 50);
     }
-    
+
 }
 
 // Set all pixels in the strip to a solid color, then wait (ms)
 void colorAll(uint32_t c, uint8_t wait) {
   uint16_t i;
-  
+
   for(i=0; i<strip.numPixels(); i++) {
     strip.setPixelColor(i, c);
   }
@@ -82,11 +80,9 @@ void colorAll(uint32_t c, uint8_t wait) {
 }
 
 // Fill the dots one after the other with a color, wait (ms) after each one
-void colorWipe(uint32_t c, uint8_t wait) {
-    
-    
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+void colorWipe(uint32_t color, uint8_t wait) {
+  for(uint16_t pixelNum=0; pixelNum < strip.numPixels(); pixelNum++) {
+    strip.setPixelColor(pixelNum, color);
     strip.show();
     delay(wait);
   }
