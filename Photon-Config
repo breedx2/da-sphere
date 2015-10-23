@@ -11,6 +11,7 @@ void setAllToColor(uint32_t color);
 void colorWipe(uint32_t c, uint8_t wait);
 void rainbow(uint8_t wait);
 void rainbowCycle(uint8_t wait);
+uint32_t nameToColor(String name);
 uint32_t Wheel(byte WheelPos);
 
 /* ======================= extra-examples.cpp ======================== */
@@ -42,29 +43,39 @@ int pagerduty(String notice){
 
 // The color function exposed in the spark API
 int color(String colorName){
-    if(colorName == "white"){
-        colorWipe(strip.Color(255, 255, 255), 50);
-    } else if(colorName == "red"){
-        colorWipe(strip.Color(255, 0, 0), 50);
-    } else if(colorName == "blue"){
-        colorWipe(strip.Color(0, 0, 255), 50);
-    } else if(colorName == "green"){
-        colorWipe(strip.Color(0, 255, 0), 50);
-    } else if(colorName == "yellow"){
-        colorWipe(strip.Color(255, 255, 0), 50);
-    } else if(colorName == "purple"){
-        colorWipe(strip.Color(255, 0, 255), 50);
-    } else if(colorName == "cyan"){
-        colorWipe(strip.Color(0, 255, 255), 50);
-    } else if(colorName == "orange"){
-        colorWipe(strip.Color(255, 90, 0), 50);
-    } else if(colorName == "pink"){
-        colorWipe(strip.Color(255, 00, 90), 50);
-    } else if(colorName == "rainbow"){
-        rainbowCycle(20);
-    } else if(colorName == "off"){
-         colorWipe(strip.Color(0, 0, 0), 50);
+    if(colorName == "rainbow"){
+      rainbowCycle(20);
     }
+    else{
+      uint32_t color = colorNameToColor(colorName);
+      colorWipe(color, 50);
+    }
+    return 0;
+}
+
+uint32_t colorNameToColor(String colorName) {
+  if(colorName == "white"){
+      return strip.Color(255, 255, 255);
+  } else if(colorName == "red"){
+      return strip.Color(255, 0, 0);
+  } else if(colorName == "blue"){
+      return strip.Color(0, 0, 255);
+  } else if(colorName == "green"){
+      return strip.Color(0, 255, 0);
+  } else if(colorName == "yellow"){
+      return strip.Color(255, 255, 0);
+  } else if(colorName == "purple"){
+      return strip.Color(255, 0, 255);
+  } else if(colorName == "cyan"){
+      return strip.Color(0, 255, 255);
+  } else if(colorName == "orange"){
+      return strip.Color(255, 90, 0);
+  } else if(colorName == "pink"){
+      return strip.Color(255, 00, 90);
+  } else if((colorName == "off") || (colorName == "black")){
+      return strip.Color(0, 0, 0);
+  }
+  return strip.Color(255,255,255);  //punt
 }
 
 // Fill the dots one after the other with a color, wait (ms) after each one
