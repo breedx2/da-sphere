@@ -16,8 +16,8 @@ uint32_t Wheel(byte WheelPos);
 /* ======================= extra-examples.cpp ======================== */
 
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
-#define PIXEL_COUNT 8
-#define PIXEL_PIN D1
+#define PIXEL_COUNT 60
+#define PIXEL_PIN D0
 #define PIXEL_TYPE WS2812B
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
