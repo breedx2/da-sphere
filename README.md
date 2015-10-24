@@ -7,12 +7,15 @@ Currently there are 60 individually addressable LEDs that can produce the entire
 ![Alt text](/photon-neopixel-unit.jpg?raw=true "Photon and Neopixel Ring")
 
 ## Parts List
-* 4x Neopixel circle - https://www.adafruit.com/products/1768
-* 1x Particle.io Photon - https://store.particle.io/?product=particle-photon
-* 1x Power Circuit - https://www.adafruit.com/products/390
-* 1x LiPo Battery - https://www.adafruit.com/products/353
-* 1x Power Supply - https://www.adafruit.com/products/276
-* 1x White Chinese Lantern - http://www.amazon.com/Everyday-PLNT-10-FBA-Round-Paper-Lantern/dp/B009CDE06G/ref=sr_1_9?ie=UTF8&qid=1445665617&sr=8-9&keywords=chinese+lantern
+* 4 x Neopixel circle - https://www.adafruit.com/products/1768
+* 1 x Particle.io Photon - https://store.particle.io/?product=particle-photon
+* 1 x Power Circuit - https://www.adafruit.com/products/390
+* 1 x LiPo Battery - https://www.adafruit.com/products/353
+* 1 x Power Supply - https://www.adafruit.com/products/276
+* 1 x Adafruit Perma-Proto Half-sized Breadboard PCB - https://www.adafruit.com/products/571
+* 1 x Mounting Bracket - https://tinkercad.com/things/3t1GnJodfKW
+* 1 x White Chinese Lantern - http://www.amazon.com/Everyday-PLNT-10-FBA-Round-Paper-Lantern/dp/B009CDE06G/ref=sr_1_9?ie=UTF8&qid=1445665617&sr=8-9&keywords=chinese+lantern
+
 
 ##How to call functions on the Particle.io API
 
