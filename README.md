@@ -22,7 +22,9 @@ HTTP Post Format:
 
      curl https://api.particle.io/v1/devices/<Particle.io-Photon-ID>/color -d access_token=<Particle.io-API-Key> -d arg=<COLOR>
 
+
 Available Colors
+
      off
      black
      white
