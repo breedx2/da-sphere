@@ -35,12 +35,6 @@ void loop() {
 
 }
 
-// The pagerduty function exposed in the spark API
-
-int pagerduty(String notice){
-    Spark.publish("notice",notice);
-}
-
 // The color function exposed in the spark API
 int color(String colorName){
     if(colorName == "rainbow"){
