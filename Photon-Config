@@ -7,17 +7,18 @@ SYSTEM_MODE(AUTOMATIC);
 
 /* ======================= prototypes =============================== */
 
-void colorAll(uint32_t c, uint8_t wait);
+void setAllToColor(uint32_t color);
 void colorWipe(uint32_t c, uint8_t wait);
 void rainbow(uint8_t wait);
 void rainbowCycle(uint8_t wait);
+uint32_t nameToColor(String name);
 uint32_t Wheel(byte WheelPos);
 
 /* ======================= extra-examples.cpp ======================== */
 
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
-#define PIXEL_COUNT 8
-#define PIXEL_PIN D1
+#define PIXEL_COUNT 60
+#define PIXEL_PIN D0
 #define PIXEL_TYPE WS2812B
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
@@ -25,13 +26,13 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
   colorWipe(strip.Color(255, 255, 255), 50);
-  
+
   Spark.function("color", color); // Expose the color function
   Spark.function("pagerduty", pagerduty); // Expose the color function
 }
 
 void loop() {
-  
+
 }
 
 // The pagerduty function exposed in the spark API
@@ -41,55 +42,56 @@ int pagerduty(String notice){
 }
 
 // The color function exposed in the spark API
-
-int color(String command){
-    
-    if(command == "white"){
-        colorWipe(strip.Color(255, 255, 255), 50); // Red
-    }else if(command == "red"){
-        colorWipe(strip.Color(255, 0, 0), 50);
-    }else if(command == "blue"){
-        colorWipe(strip.Color(0, 0, 255), 50);
-    }else if(command == "green"){
-        colorWipe(strip.Color(0, 255, 0), 50);
-    }else if(command == "yellow"){
-        colorWipe(strip.Color(255, 255, 0), 50);
-    }else if(command == "purple"){
-        colorWipe(strip.Color(255, 0, 255), 50);
-    }else if(command == "cyan"){
-        colorWipe(strip.Color(0, 255, 255), 50);
-    }else if(command == "orange"){
-        colorWipe(strip.Color(255, 90, 0), 50);
-    }else if(command == "pink"){
-        colorWipe(strip.Color(255, 00, 90), 50);
-    }else if(command == "rainbow"){
-        rainbowCycle(20);
-    }else if(command == "off"){
-         colorWipe(strip.Color(0, 0, 0), 50);
+int color(String colorName){
+    if(colorName == "rainbow"){
+      rainbowCycle(20);
     }
-    
+    else{
+      uint32_t color = colorNameToColor(colorName);
+      colorWipe(color, 50);
+    }
+    return 0;
 }
 
-// Set all pixels in the strip to a solid color, then wait (ms)
-void colorAll(uint32_t c, uint8_t wait) {
-  uint16_t i;
-  
-  for(i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+uint32_t colorNameToColor(String colorName) {
+  if(colorName == "white"){
+      return strip.Color(255, 255, 255);
+  } else if(colorName == "red"){
+      return strip.Color(255, 0, 0);
+  } else if(colorName == "blue"){
+      return strip.Color(0, 0, 255);
+  } else if(colorName == "green"){
+      return strip.Color(0, 255, 0);
+  } else if(colorName == "yellow"){
+      return strip.Color(255, 255, 0);
+  } else if(colorName == "purple"){
+      return strip.Color(255, 0, 255);
+  } else if(colorName == "cyan"){
+      return strip.Color(0, 255, 255);
+  } else if(colorName == "orange"){
+      return strip.Color(255, 90, 0);
+  } else if(colorName == "pink"){
+      return strip.Color(255, 00, 90);
+  } else if((colorName == "off") || (colorName == "black")){
+      return strip.Color(0, 0, 0);
   }
-  strip.show();
-  delay(wait);
+  return strip.Color(255,255,255);  //punt
 }
 
 // Fill the dots one after the other with a color, wait (ms) after each one
-void colorWipe(uint32_t c, uint8_t wait) {
-    
-    
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+void colorWipe(uint32_t color, uint8_t wait) {
+  for(uint16_t pixelNum=0; pixelNum < strip.numPixels(); pixelNum++) {
+    strip.setPixelColor(pixelNum, color);
     strip.show();
     delay(wait);
   }
+}
+
+void setAllToColor(uint32_t color) {
+  for(uint16_t pixelNum=0; pixelNum < strip.numPixels(); pixelNum++) {
+    strip.setPixelColor(pixelNum, color);
+  }
+  strip.show();
 }
 
 void rainbow(uint8_t wait) {
