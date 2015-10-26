@@ -7,12 +7,14 @@ SYSTEM_MODE(AUTOMATIC);
 
 /* ======================= prototypes =============================== */
 
+int setAllToColorByName(String name);
 void setAllToColor(uint32_t color);
 void colorWipe(uint32_t c, uint8_t wait);
 void rainbow(uint8_t wait);
 void rainbowCycle(uint8_t wait);
 uint32_t nameToColor(String name);
 uint32_t Wheel(byte WheelPos);
+int alarm(String name);
 
 /* ======================= extra-examples.cpp ======================== */
 
@@ -22,17 +24,58 @@ uint32_t Wheel(byte WheelPos);
 #define PIXEL_TYPE WS2812B
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
+String mode;
+String alarmColor1 = "";
+String alarmColor2 = "";
+
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
   colorWipe(strip.Color(255, 255, 255), 50);
 
   Spark.function("color", color); // Expose the color function
-  Spark.function("pagerduty", pagerduty); // Expose the color function
+  Spark.function("alarm", alarm); // Expose the color function
+  //Spark.function("pagerduty", pagerduty); // Expose the pagerduty function
+  Spark.function("icolor", setAllToColorByName); // Expose the setAllToColorByName function
 }
 
 void loop() {
+    if(mode == "alarm"){
+        setAllToColor(colorNameToColor(alarmColor1));
+        delay(100);
+        setAllToColor(colorNameToColor(alarmColor2));
+        delay(200);
+    }
+}
 
+int alarm(String name){
+    mode = "alarm";
+    if(name == "redblue"){
+        alarmColor1 = "red";
+        alarmColor2 = "blue";
+    }
+    else if(name == "pinkyellow"){
+        alarmColor1 = "pink";
+        alarmColor2 = "yellow";
+    }
+    else if(name == "purplegreen"){
+        alarmColor1 = "purple";
+        alarmColor2 = "green";
+    }
+    else if(name == "cyanorange"){
+        alarmColor1 = "cyan";
+        alarmColor2 = "orange";
+    }
+    else if(name == "cancel") {
+        mode = "";
+    }
+    return 0;
+}
+
+// The pagerduty function exposed in the spark API
+int pagerduty(String notice){
+    Spark.publish("notice",notice);
+    return 0;
 }
 
 // The color function exposed in the spark API
@@ -79,6 +122,12 @@ void colorWipe(uint32_t color, uint8_t wait) {
     strip.show();
     delay(wait);
   }
+}
+
+int setAllToColorByName(String colorName){
+  uint32_t color = colorNameToColor(colorName);
+  setAllToColor(color);
+  return 0;
 }
 
 void setAllToColor(uint32_t color) {
